@@ -52,7 +52,9 @@ async function run() {
     // Make the code in /github/workspace/ into a tar.gz, located in /github/home/rpmbuild/SOURCES/
     const oldGitDir = process.env.GIT_DIR;
     process.env.GIT_DIR = '/github/workspace/.git';
-    await exec.exec(`git archive --output=/github/home/rpmbuild/SOURCES/${name}-${version}.tar.gz --prefix=${name}-${version}/ HEAD`);
+    await exec.exec(`git archive --format=tar --output=/github/home/rpmbuild/SOURCES/${name}-${version}.tar --prefix=${name}-${version}/ HEAD`);
+    await exec.exec(`tar --append --file=/github/home/rpmbuild/SOURCES/${name}-${version}.tar target`);
+    await exec.exec(`gzip /github/home/rpmbuild/SOURCES/${name}-${version}.tar`);
     process.env.GIT_DIR = oldGitDir;
 
     // Execute rpmbuild , -ba generates both RPMS and SPRMS
