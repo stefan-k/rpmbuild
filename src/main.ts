@@ -51,7 +51,7 @@ async function run() {
 
     // Make the code in /github/workspace/ into a tar.gz, located in /github/home/rpmbuild/SOURCES/
     await exec.exec(`mkdir -p /blah/${name}-${version}`);
-    await exec.exec(`cp /github/workspace/* /blah/${name}-${version}/`);
+    await exec.exec(`cp * /blah/${name}-${version}/`);
     await exec.exec(`tar --create --file=/github/home/rpmbuild/SOURCES/${name}-${version}.tar.gz /blah/${name}-${version}/`);
     // const oldGitDir = process.env.GIT_DIR;
     // process.env.GIT_DIR = '/github/workspace/.git';
